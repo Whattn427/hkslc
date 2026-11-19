@@ -20,16 +20,15 @@ Python 3 standard library only.
 
 ## Deploy to Vercel
 
-The repo is Vercel-ready (`vercel.json` + `api/stock.py` serverless function +
-`api/hk_core.py` shared logic — the same code the local server uses):
+Zero-config: the repo follows Vercel's standard layout (`api/stock.py` becomes
+`/api/stock`, static files at the root are served as-is). No `vercel.json` needed.
 
 1. Push this folder to a GitHub repository.
 2. Go to [vercel.com](https://vercel.com) → **Add New… → Project** → import the repo.
-3. Framework preset: **Other** (leave everything as-is — `vercel.json` drives it).
-4. Name the project **hkslc** (edit the "Project Name" field at import time if the repo
-   has a different name). You site goes live at `https://hkslc.vercel.app`
-   (if that name is taken, Vercel appends a suffix — you can rename the project later
-   under Settings → General → Project Name, or attach your own domain).
+3. Framework preset: **Other** — leave all build settings empty/default.
+4. Name the project **hkslc** → your site goes live at `https://hkslc.vercel.app`
+   (if that name is taken, Vercel appends a suffix — rename the project later under
+   Settings → General → Project Name, or attach your own domain).
 
 (Alternatively install the Vercel CLI with Node and run `vercel` from this folder.)
 
@@ -71,12 +70,10 @@ Notes:
 | File | Purpose |
 | ---- | ------- |
 | `server.py` | Local dev server (static files + `/api/stock` route) |
-| `api/hk_core.py` | Shared logic: Eastmoney fetch, parse, calculate (used by both) |
-| `api/stock.py` | Vercel serverless function for `/api/stock` |
-| `vercel.json` | Vercel build & route configuration |
-| `public/index.html` | Page markup |
-| `public/style.css` | Styling |
-| `public/app.js` | Rendering + live recalculation when toggling cash lines |
+| `api/stock.py` | All data + calculation logic; also the Vercel serverless function |
+| `index.html` | Page markup |
+| `style.css` | Styling |
+| `app.js` | Rendering + live recalculation when toggling cash lines |
 
 ### Data endpoints (all keyless Eastmoney datacenter API)
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HK Stock Liquidity Calculator</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>🇭🇰 HK Stock Liquidity Calculator</h1>
+    <p class="sub">Enter a Hong Kong stock code — we pull the latest balance sheet and run the
+      <strong>adjusted net liquidity</strong> formula:</p>
+    <p class="formula-chip">(inventory × 0.5) + (accounts receivable × 0.7) + total cash − (current + non‑current liabilities)</p>
+  </header>
+
+  <form id="lookup" class="lookup" autocomplete="off">
+    <input id="code" inputmode="numeric" placeholder="Stock code, e.g. 700" maxlength="9">
+    <button type="submit" id="go">Calculate</button>
+  </form>
+
+  <div id="status" class="status hidden"></div>
+  <div id="spinner" class="spinner hidden"></div>
+
+  <section id="card" class="card hidden">
+    <div class="card-head">
+      <div>
+        <h2 id="co-name"></h2>
+        <div id="co-meta" class="meta"></div>
+      </div>
+      <div id="currency-note" class="cur-note"></div>
+    </div>
+
+    <table class="items">
+      <thead>
+        <tr><th>Balance sheet line</th><th class="num">Reported</th><th class="num">In formula</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Inventory <span class="cn">存货</span></td>
+          <td class="num" id="inv-reported"></td>
+          <td class="num" id="inv-x"></td>
+        </tr>
+        <tr>
+          <td>Accounts receivable <span class="cn">应收帐款</span></td>
+          <td class="num" id="ar-reported"></td>
+          <td class="num" id="ar-x"></td>
+        </tr>
+      </tbody>
+      <tbody id="cash-rows"></tbody>
+      <tbody>
+        <tr class="subtotal">
+          <td>Total cash included</td>
+          <td class="num"></td>
+          <td class="num" id="cash-total"></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr>
+          <td>Total current liabilities <span class="cn">流动负债合计</span></td>
+          <td class="num" id="cl-reported"></td>
+          <td class="num" id="cl-x"></td>
+        </tr>
+        <tr>
+          <td>Total non-current liabilities <span class="cn">非流动负债合计</span></td>
+          <td class="num" id="ncl-reported"></td>
+          <td class="num" id="ncl-x"></td>
+        </tr>
+        <tr class="subtotal">
+          <td>Total liabilities deducted</td>
+          <td class="num"></td>
+          <td class="num" id="liab-total"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="notes" class="notes"></div>
+
+    <div class="formula-line" id="formula-line"></div>
+
+    <div class="result-box">
+      <div class="result-label">Adjusted net liquidity</div>
+      <div class="result-value" id="result-value"></div>
+      <div class="result-note" id="result-note"></div>
+      <div class="result-per" id="per-share"></div>
+      <div class="result-note" id="per-share-note"></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Data: Eastmoney public datacenter API (standardised HK financial statements).
+    Amounts are shown in the company's own reporting currency as filed.
+    For research only — not investment advice.
+  </footer>
+</main>
+<script src="/app.js?v=2"></script>
+</body>
+</html>
